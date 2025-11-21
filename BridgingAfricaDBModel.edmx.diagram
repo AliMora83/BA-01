@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="421b0a152e494b07834e5e0b24917f09" Name="Diagram1" ZoomLevel="97">
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.AdminLoginTbl" Width="1.5" PointX="3.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.AdminNotificationTbl" Width="1.5" PointX="3.75" PointY="3.75" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.CategoryRequestTbl" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.CategoryTbl" Width="1.5" PointX="0.75" PointY="36.625" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.CityTbl" Width="1.5" PointX="1.5" PointY="25.625" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.CountryTbl" Width="1.5" PointX="1.5" PointY="33.5" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.CustomerNotificationTbl" Width="1.5" PointX="3" PointY="16.25" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.CustomerReviewsTbl" Width="1.5" PointX="11.25" PointY="10.5" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.CustomerTbl" Width="1.5" PointX="0.75" PointY="14.375" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.EnquiryTbl" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.InformationTbl" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.JobInvoiceTbl" Width="1.5" PointX="10.5" PointY="1.75" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.PostalCodesTbl" Width="1.5" PointX="1.5" PointY="20.625" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.ProviderEnquiryTbl" Width="1.5" PointX="3" PointY="9.25" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.ProviderImagesTbl" Width="1.5" PointX="8.25" PointY="9.5" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.ProviderJobsTbl" Width="1.5" PointX="8.25" PointY="4.5" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.ProviderNotificationTbl" Width="1.5" PointX="8.25" PointY="15.125" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.ProviderReviewsTbl" Width="1.5" PointX="11.25" PointY="5.5" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.ProviderServicesTbl" Width="1.5" PointX="11.25" PointY="15" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.ProviderTbl" Width="1.5" PointX="6" PointY="8.125" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.ProvinceTbl" Width="1.5" PointX="1.5" PointY="29.625" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.RatingTbl" Width="1.5" PointX="2.75" PointY="6.75" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.ServiceTbl" Width="1.5" PointX="0.75" PointY="5.75" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.SliderTbl" Width="1.5" PointX="13.75" PointY="3.75" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.StatusTbl" Width="1.5" PointX="0.75" PointY="11" />
+        <EntityTypeShape EntityType="BridgingAfricaDBModel.SubCategoryTbl" Width="1.5" PointX="1.5" PointY="1.125" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_ProviderEnquiryTbl_CategoryTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_ServiceTbl_CategoryTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_SubCategoryTbl_CategoryTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_CityTbl_ProvinceTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_PostalCodesTbl_CityTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_PostalCodesTbl_CountryTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_ProvinceTbl_CountryTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_CustomerNotificationTbl_CustomerTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_CustomerReviewsTbl_CustomerTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_CustomerReviewsTbl_ProviderEnquiryTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_CustomerReviewsTbl_ProviderTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_CustomerTbl_PostalCodesTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_ProviderEnquiryTbl_CustomerTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_ProviderReviewsTbl_CustomerTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_JobInvoiceTbl_ProviderJobsTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_PostalCodesTbl_ProvinceTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_ProviderTbl_PostalCodesTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_ProviderEnquiryTbl_ProviderTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_ProviderEnquiryTbl_ServiceTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_ProviderEnquiryTbl_StatusTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_ProviderEnquiryTbl_SubCategoryTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_ProviderJobsTbl_ProviderEnquiryTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_ProviderReviewsTbl_ProviderEnquiryTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_ProviderImagesTbl_ProviderTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_ProviderJobsTbl_StatusTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_ProviderNotificationTbl_ProviderTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_ProviderReviewsTbl_ProviderTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_ProviderServicesTbl_ProviderTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_ProviderServicesTbl_ServiceTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_ProviderTbl_StatusTbl" />
+        <AssociationConnector Association="BridgingAfricaDBModel.FK_ServiceTbl_SubCategoryTbl" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
