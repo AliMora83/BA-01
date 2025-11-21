@@ -1,0 +1,67 @@
+﻿
+@{
+    ViewBag.Title = "TRADESPERSON";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    BridgingAfricaDBEntities db = new BridgingAfricaDBEntities();
+    int cateid = int.Parse(Request.QueryString["cid"]);
+    int subcateid = int.Parse(Request.QueryString["scid"]);
+    int serviceId = int.Parse(Request.QueryString["sid"]);
+    int area = int.Parse(Request.QueryString["PostalCodeID"]);
+
+    var result = db.ProviderTbls.Where(c => c.IsActive == true && c.IsAvailable == true && c.ProviderServicesTbls.Count(s => s.IsActive) > 0 && c.StatusID == 2 && c.PostalCodeID == area && c.ProviderServicesTbls.Any(ps => ps.ServiceID == serviceId && ps.IsActive)).Select(s => new { s.Id, s.ProviderName, s.PostalCodesTbl.AreaName, s.AverageRating, s.ProfileImage, s.BannerImage, s.ContactNo, s.IsSponsored, s.IsVerified, ReviewsCount = s.CustomerReviewsTbls.Count(r => r.IsActive == true), Services = s.ProviderServicesTbls.Where(ss => ss.IsActive == true && ss.ServiceTbl.IsActive == true).Select(ss => ss.ServiceTbl.ServiceName) }).OrderByDescending(s => s.ReviewsCount).ToList();
+
+}
+
+<!-- Start Most Sold Product Area  -->
+<div class="axil-most-sold-product axil-section-gap">
+    <div class="container">
+        <div class="product-area pb--50">
+            @if (result.Count > 0)
+            {
+                <div class="section-title-wrapper section-title-center">
+                    <h2 class="title">Tradesperson in your area</h2>
+                </div>
+                <div class="row row-cols-xl-2 row-cols-1 row--15">
+                    @foreach (var item in result)
+                    {
+                        <a href="/Categories/TradesPersonDetails?sid=@Request.QueryString["sid"]&scid=@Request.QueryString["scid"]&cid=@Request.QueryString["cid"]&PostalCodeID=@Request.QueryString["PostalCodeID"]&pid=@item.Id" class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="axil-product-list">
+                                <div class="thumbnail">
+                                    <img class="img-thumbnail" style="width:200px;height:200px;" src="@item.ProfileImage" alt="@item.ProviderName">
+                                </div>
+                                <div class="product-content">
+                                    <h5 class="mb--0">@item.ProviderName</h5>
+                                    <div class="product-reviews-summary">
+                                        <div class="rating-summary">
+                                            <h4 class="rating-result mb-0">
+                                                <span style="width:@item.AverageRating%"></span>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                    @if (item.ReviewsCount > 0)
+                                    {
+                                        <span>(@item.ReviewsCount+ Reviews)</span>
+                                    }
+                                    <h6 class="mt-2"><i class="fa fa-map-marker"></i> Operates in @item.AreaName</h6>
+                                    <h6 class="mb--15">Services <i class="fa fa-chevron-circle-right"></i></h6>
+                                    @foreach (var service in item.Services)
+                                    {
+                                        <span class="list-services"><i class="fa fa-check"></i> @service</span>
+                                    }
+                                </div>
+                            </div>
+                        </a>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="section-title-wrapper section-title-center">
+                    <h2 class="title">No Tradesperson in your area</h2>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Most Sold Product Area  -->

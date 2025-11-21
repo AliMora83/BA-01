@@ -1,0 +1,202 @@
+﻿
+@{
+    ViewBag.Title = "HOME";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    BridgingAfricaDBEntities db = new BridgingAfricaDBEntities();
+    var categories = db.CategoryTbls.Where(s => s.IsActive == true).Select(s => new { s.Id, s.CategoryName, s.Image, s.CategoryOrder }).OrderBy(s => s.CategoryOrder).ToList();
+
+    var sliders = db.SliderTbls.Where(s => s.IsActive == true).Select(s => new { s.Id, s.UpperTitle, s.LowerTitle, s.Image, s.ImageOrder }).OrderBy(s => s.ImageOrder).ToList();
+}
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcimpXOj5Dp3IYAnXTyiTOOYnLFE-1-to&callback=initMap" async defer></script>
+
+<script>
+    let map;
+    let markers = [];
+    let infoWindow; // single shared info window
+
+    function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: 25.276987, lng: 55.296249 },
+            zoom: 8
+        });
+
+        infoWindow = new google.maps.InfoWindow(); // initialize one instance
+
+        loadAreaMarkers();
+    }
+
+    function loadAreaMarkers() {
+        $.ajax({
+            url: "/api/HomeApi/GetAllAreasLocations",
+            method: "GET",
+            timeout: 0,
+            success: function (response) {
+                if (response && response.length > 0) {
+                    // Clear old markers
+                    markers.forEach(m => m.setMap(null));
+                    markers = [];
+
+                    response.forEach(area => {
+                        if (area.Latitude && area.Longitude) {
+                            const position = {
+                                lat: parseFloat(area.Latitude),
+                                lng: parseFloat(area.Longitude)
+                            };
+
+                            const marker = new google.maps.Marker({
+                                position: position,
+                                map: map,
+                                title: `${area.AreaName} (${area.ProviderCounts} providers)`
+                            });
+
+                            // Reuse the single info window
+                            marker.addListener("click", () => {
+                                const content = `
+                                    <div>
+                                        <h5 style="margin-bottom: 5px;">${area.AreaName}</h5>
+                                        <h6>${area.ProviderCounts} Active Tradespersons</h6>
+                                    </div>
+                                `;
+                                infoWindow.setContent(content);
+                                infoWindow.open(map, marker);
+                            });
+
+                            markers.push(marker);
+                        }
+                    });
+
+                    // Adjust map to fit all markers
+                    const bounds = new google.maps.LatLngBounds();
+                    markers.forEach(m => bounds.extend(m.getPosition()));
+                    map.fitBounds(bounds);
+                } else {
+                    console.warn("No areas found");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error loading areas:", error);
+            }
+        });
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '/api/homeapi/AutoDisapproveProvider',  // your API route
+            type: 'GET',
+            success: function (response) {
+                if (response.Status === "Success") {
+                    console.log("Auto disapprove process completed successfully.");
+                } else {
+                    console.warn("Auto disapprove failed:", response.Message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error calling AutoDisapproveProvider:", error);
+            }
+        });
+    });
+</script>
+
+<main class="main-wrapper">
+    <!-- Start Slider Area -->
+    <div class="axil-main-slider-area main-slider-style-5">
+        <div class="slider-box-wrap">
+            <div class="slider-activation-two axil-slick-dots">
+                @foreach (var item in sliders)
+                {
+                    <div class="single-slide slick-slide">
+                        <div class="main-slider-content">
+                            <span class="subtitle"><i class="fas fa-fire"></i> @item.UpperTitle</span>
+                            <h1 class="title">@item.LowerTitle</h1>
+                            <div class="shop-btn">
+                                <a href="/Categories" class="axil-btn btn-bg-secondary right-icon">Browse Categories <i class="fal fa-long-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="main-slider-thumb">
+                            <img src="@item.Image" alt="Slider">
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <!-- End Slider Area -->
+    <!-- Start Categorie Area  -->
+    <div class="axil-categorie-area bg-color-white axil-section-gap pb--0">
+        <div class="container">
+            <div class="product-area pb--100">
+                <div class="section-title-wrapper">
+                    <h2 class="title text-center">Popular categories</h2>
+                </div>
+                <div class="categrie-product-activation-3 slick-layout-wrapper--15 mt--50 axil-slick-arrow  arrow-top-slide">
+                    @foreach (var item in categories)
+                    {
+                        <div class="slick-single-layout slick-slide">
+                            <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100" data-sal-duration="500">
+                                <a href="/Categories/Subcategories?cateid=@item.Id">
+                                    <img class="img-fluid" src="@item.Image" alt="@item.CategoryName">
+                                    <h6 class="cat-title">@item.CategoryName</h6>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Categorie Area  -->
+    <!-- Start Categorie Area  -->
+    <div class="axil-categorie-area bg-color-white axil-section-gap pb--0">
+        <div class="container">
+            <div class="product-area pb--100">
+                <div class="section-title-wrapper">
+                    <h2 class="title text-center mb-5">Our Service areas</h2>
+                </div>
+
+                <div id="map" style="height: 600px; width: 100%;"></div>
+            </div>
+        </div>
+    </div>
+    <!-- End Categorie Area  -->
+    <!-- Start Why Choose Area  -->
+    <div class="how-to-sell-area axil-section-gap">
+        <div class="container">
+            <div class="product-area pb--50">
+                <div class="section-title-wrapper section-title-center">
+                    <h2 class="title">Get service in 3 steps</h2>
+                </div>
+                <div class="row row-cols-xl-3 row-cols-lg-2 row-cols-md-2 row-cols-sm-2 row-cols-1 row--20">
+                    <div class="col">
+                        <div class="service-box how-to-sell">
+                            <div class="icon">
+                                <img src="/assets/images/icons/choose.png" alt="Service">
+                            </div>
+                            <h6 class="title">Find your category</h6>
+                            <p>Find your job category and subcategory for best match</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="service-box how-to-sell">
+                            <div class="icon">
+                                <img src="/assets/images/icons/protection.png" alt="Service">
+                            </div>
+                            <h6 class="title">Enter your area/Suburb</h6>
+                            <p>Enter your area/Suburb for tradesperson around.</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="service-box how-to-sell">
+                            <div class="icon">
+                                <img src="/assets/images/icons/purchasing.png" alt="Service">
+                            </div>
+                            <h6 class="title">Get best tradesperson</h6>
+                            <p>Get a wide list of best and verified tradesperson around you.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
